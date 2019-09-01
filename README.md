@@ -7,7 +7,7 @@ for linux, is a remote command system (like ssh), but very very simple and with 
 ```
 sudo apt-get install -y php netcat git-core
 cd ~
-git clone https://github.com/gioexperience/serc.git'
+git clone "https://github.com/gioexperience/serc.git"
 cd serc
 chmod +x install.sh
 sudo ~/serc/install.sh
