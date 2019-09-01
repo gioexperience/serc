@@ -1,16 +1,16 @@
 # serc
 
-is a remote command system (like ssh), but very very simple and wothout any security (for the moment). You can execute shell command from a remote machine
+S.E.R.C. stay for Super Easy Remote Commander
+For linux, is a remote command system (like ssh), but very very simple and wothout any security (for the moment). You can execute shell command from a remote machine. Using netcat, he send TCP packet with a message.
 
 ```
-sudo apt-get install -y git-core
+sudo apt-get install -y php netcat git-core
 cd ~
 git clone https://github.com/gioexperience/serc.git'
 cd serc
 chmod +x install.sh
 sudo ~/serc/install.sh
 ```
-
 
 ## for update from git-hub
 
