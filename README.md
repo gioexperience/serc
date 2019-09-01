@@ -21,14 +21,12 @@ chmod +x ~/serc/install.sh
 
 ## usage
 
+for listen on port 61710
 
-#for listen on port 61710
+```serc server```
 
-serc server			
+for send remote command, for example create a file in the remote raspberry
 
-
-#for send remote command, for example create a file in the remote raspberry
-
-serc send 192.168.0.2 "touch /home/pi/test.tmp"
+```serc send 192.168.0.2 "touch /home/pi/test.tmp"```
 	
 
