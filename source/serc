@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+/*    Usage:  ./serc server			#for start the server that listen on 61710
+              ./serc send [ip] [message]    #for sending a command. The message is the command.
+	
+      see www.gioexperience.com for more details
+*/
+
+define("port",61710);
+
+if( $argc>1 && $argv[1]=="server" )
+{
+	while(true)
+	{
+		$cmd=trim(shell_exec("netcat -l ".port));
+		echo "Remote command: $cmd\n";
+		shell_exec($cmd);
+	}
+}
+elseif( $argc>1 && $argv[1]=="send" )
+{
+	$ip=trim($argv[2]);
+	$msg=trim($argv[3]);
+	
+	$ret=shell_exec("echo \"$msg\" | nc -q0 $ip ".port);
+	
+	echo "$ret\n";
+}
+else
+{
+	echo "\n";
+	echo "Usage:  serc server\n";
+	echo "        serc send [ip] [message]\n";
+	echo "\n";
+	die();
+}
+
+
+
+?>
