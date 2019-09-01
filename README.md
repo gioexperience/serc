@@ -1,5 +1,7 @@
 # serc
 
+is a remote command system (like ssh), but very very simple and wothout any security (for the moment). You can execute shell command from a remote machine
+
 ```
 sudo apt-get install -y git-core
 cd ~
