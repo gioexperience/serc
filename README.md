@@ -24,7 +24,7 @@ chmod +x ~/serc/install.sh
 
 ## usage
 
-for listen on port 61710
+for start server and listen on port 61710
 
 ```serc server```
 
