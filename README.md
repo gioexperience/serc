@@ -1,7 +1,8 @@
 # serc
 
 S.E.R.C. stay for Super Easy Remote Commander
-For linux, is a remote command system (like ssh), but very very simple and wothout any security (for the moment). You can execute shell command from a remote machine. Using netcat, he send TCP packet with a message.
+
+for linux, is a remote command system (like ssh), but very very simple and with no security (for the moment). You can execute shell command from a remote machine. Using netcat, he send TCP packet with a message to a server.
 
 ```
 sudo apt-get install -y php netcat git-core
