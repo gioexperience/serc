@@ -43,7 +43,7 @@ for send remote command, for example create a file in the remote raspberry
 	
 for create a new random file password (remember to copy to server and client)
 
-```sudo serc create auth```
+```sudo serc createauth```
 
 for kill all instance of serc, and netcat to free ports
 
