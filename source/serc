@@ -1,37 +1,69 @@
 #!/usr/bin/env php
 <?php
 
-/*    Usage:  ./serc server			#for start the server that listen on 61710
-              ./serc send [ip] [message]    #for sending a command. The message is the command.
-	
+/*    
       see www.gioexperience.com for more details
 */
 
 define("port",61710);
+touch("/etc/serc.password");
+$real_pwd=file_get_contents("/etc/serc.password");
 
 if( $argc>1 && $argv[1]=="server" )
 {
 	while(true)
 	{
 		$cmd=trim(shell_exec("netcat -l ".port));
-		echo "Remote command: $cmd\n";
-		shell_exec($cmd);
+		$pwd=substr($cmd,0,32);
+		if( $pwd==$real_pwd )
+		{
+			$cmd=substr($cmd,32);
+			echo "Auth OK: command to exec: $cmd\n";
+			shell_exec($cmd);
+		}
+		else
+			echo "Auth failed!\n";
 	}
 }
 elseif( $argc>1 && $argv[1]=="send" )
 {
 	$ip=trim($argv[2]);
 	$msg=trim($argv[3]);
+	$msg=$real_pwd.$msg;
 	
 	$ret=shell_exec("echo \"$msg\" | nc -q0 $ip ".port);
-	
-	echo "$ret\n";
 }
+elseif( $argc>1 && $argv[1]=="kill" )
+{
+	echo "serc killing... \n\n";
+	exec("pkill -f '/usr/local/bin/serc server'");
+	exec("pkill -f 'netcat'");
+}
+
+elseif( $argc>1 && $argv[1]=="createauth" )
+{
+	$user=exec("whoami");
+	if( $user!="root" ) die("\nThis tool must be launched by root!\n\n");
+	
+	srand(time());
+	$n=rand(1,99999).time();
+	$pwd=md5($n);
+	
+	file_put_contents("/etc/serc.password",$pwd);
+	chmod("/etc/serc.password",0666);
+	
+	echo "Created random password in /etc/serc.password\n";
+	echo "Please make sure the same file is in client and in server\n\n";
+}
+
 else
 {
 	echo "\n";
-	echo "Usage:  serc server\n";
-	echo "        serc send [ip] [message]\n";
+	echo "Usage:  serc server               # start listening\n";
+	echo "        serc send [ip] [message]  # send a remote command\n";
+	echo "        serc kill                 # kill all instance of serc (client, server or other)\n";
+	echo "        serc createauth           # create the file /etc/serc.password. The same file must\n";
+	echo "                                  # be the same in client and server\n";
 	echo "\n";
 	die();
 }
