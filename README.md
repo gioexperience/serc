@@ -20,6 +20,7 @@ cd ~/serc
 git reset --hard
 git pull
 chmod +x ~/serc/install.sh
+sudo ~/serc/install.sh
 ```
 
 ## usage
