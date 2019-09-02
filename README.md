@@ -4,6 +4,10 @@ S.E.R.C. stay for Super Easy Remote Commander
 
 for linux, is a remote command system (like ssh), but very very simple and with a simple security. You can execute shell command from a remote machine. Using netcat, he send TCP packet with a message to a server.
 
+I'm not abelinato, I know there is ssh and the possibility to execute remote command with ssh... but in my experience and many tests, a single command that connect in ssh, and pass a command in remote console take almost 2second for execute (for example a simple "touch /home/pi/file")... SERC only 0.14secs. In my very little and closed applications, serc is more appreciated than ssh.
+
+# install
+
 ```
 sudo apt-get install -y php netcat git-core
 cd ~
