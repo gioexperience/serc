@@ -54,7 +54,7 @@ elseif( $argc>1 && $argv[1]=="send" )
 	$msg=$real_pwd.$msg;
 	
 	$ret=shell_exec("echo \"$msg\" | nc -q0 $ip ".port);
-	echo "response: $ret \n";
+	echo $ret;
 }
 elseif( $argc>1 && $argv[1]=="kill" )
 {
