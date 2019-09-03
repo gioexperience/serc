@@ -11,19 +11,41 @@ $real_pwd=file_get_contents("/etc/serc.password");
 
 if( $argc>1 && $argv[1]=="server" )
 {
-	while(true)
+	$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+	$bind=false;
+	echo "try listen..";
+	while(!$bind)
 	{
-		$cmd=trim(shell_exec("netcat -l ".port));
+		sleep(2);
+		$bind=socket_bind($socket, "0.0.0.0", port);
+		echo "..";
+	}
+	echo "...ok\n";
+	socket_listen($socket);
+
+	while (true)
+	{
+		echo "waiting connection...\n";
+		$stream = socket_accept($socket);
+		$cmd = socket_read($stream, 1024);
 		$pwd=substr($cmd,0,32);
+
 		if( $pwd==$real_pwd )
 		{
 			$cmd=substr($cmd,32);
-			echo "Auth OK: command to exec: $cmd\n";
-			shell_exec($cmd);
+			$ret=shell_exec($cmd);
 		}
 		else
-			echo "Auth failed!\n";
+		{
+			$ret="Auth failed!";
+		}
+
+		echo $ret;
+		socket_write($stream,$ret);
+		socket_close($stream);
+		
 	}
+	socket_close($socket);
 }
 elseif( $argc>1 && $argv[1]=="send" )
 {
@@ -32,6 +54,7 @@ elseif( $argc>1 && $argv[1]=="send" )
 	$msg=$real_pwd.$msg;
 	
 	$ret=shell_exec("echo \"$msg\" | nc -q0 $ip ".port);
+	echo "response: $ret \n";
 }
 elseif( $argc>1 && $argv[1]=="kill" )
 {
@@ -67,7 +90,5 @@ else
 	echo "\n";
 	die();
 }
-
-
 
 ?>
