@@ -9,7 +9,8 @@ fi
 
 apt-get install netcat php -y
 
-echo "installing serc..."
+chmod +x ~/serc/update.sh
+echo "installing..."
 cp ./source/serc /usr/local/bin/serc
 chmod +x /usr/local/bin/serc
 
