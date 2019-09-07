@@ -7,7 +7,7 @@
 
 define("port",61710);
 touch("/etc/serc.password");
-$real_pwd=file_get_contents("/etc/serc.password");
+$real_pwd=trim(file_get_contents("/etc/serc.password"));
 
 if( $argc>1 && $argv[1]=="server" )
 {
