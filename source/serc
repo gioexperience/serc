@@ -7,7 +7,7 @@
 
 define("port",61710);
 touch("/etc/serc.password");
-$real_pwd=trim(file_get_contents("/etc/serc.password"));
+$real_pwd=file_get_contents("/etc/serc.password");
 
 if( $argc>1 && $argv[1]=="server" )
 {
@@ -28,11 +28,12 @@ if( $argc>1 && $argv[1]=="server" )
 		echo "waiting connection...\n";
 		$stream = socket_accept($socket);
 		$cmd = socket_read($stream, 1024);
-		$pwd=trim(substr($cmd,0,32));
+		$pwd=substr($cmd,0,32);
 
 		if( $pwd==$real_pwd )
 		{
-			$cmd=substr($cmd,32);
+			$cmd=trim(base64_decode(substr($cmd,32)));
+			echo "exec: $cmd\n";
 			$ret=shell_exec($cmd);
 		}
 		else
@@ -51,7 +52,7 @@ elseif( $argc>1 && $argv[1]=="send" )
 {
 	$ip=trim($argv[2]);
 	$msg=trim($argv[3]);
-	$msg=$real_pwd.$msg;
+	$msg=$real_pwd.base64_encode($msg);
 	
 	$ret=shell_exec("echo \"$msg\" | nc -q0 $ip ".port);
 	echo $ret;
